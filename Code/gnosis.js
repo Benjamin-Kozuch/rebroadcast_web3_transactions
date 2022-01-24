@@ -1,6 +1,7 @@
 const adminWallet = require('./wallet');
 const adminAddress = adminWallet.publicAddress;
 const constants = require('./constants');
+
 const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/dbbffb50b5cf4a348b2688aa208119c6'));
 web3.eth.defaultCommon = { customChain: { name: 'ropsten', chainId: 3, networkId: 3 } };

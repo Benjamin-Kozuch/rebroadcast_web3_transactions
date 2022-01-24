@@ -1,4 +1,22 @@
 # NodeJS-Technical-Assessment
+
+## Overview
+
+This was a great assignment and through it I learned alot about transactions and web3js.
+
+
+## Sources
+https://info.etherscan.com/how-to-cancel-ethereum-pending-transactions/
+https://www.web3.university/article/how-to-debug-pending-ethereum-transactions
+https://medium.com/blockchannel/life-cycle-of-an-ethereum-transaction-e5c66bae0f6e
+https://web3js.readthedocs.io/en/v1.2.11/web3-eth.html#getpendingtransactions
+https://ethereum.stackexchange.com/a/67234
+https://web3js.readthedocs.io/en/v1.2.0/web3-eth.html?highlight=sendTransaction#gettransaction
+https://raw.githubusercontent.com/Kaisle/await-transaction-mined/master/index.js
+https://ethereum.stackexchange.com/questions/27256/error-replacement-transaction-underpriced/44875
+
+
+
 ## Required Tools
 - https://code.visualstudio.com/
 - https://nodejs.org/en/blog/release/v12.18.0/
