@@ -51,7 +51,7 @@ function waitForTxReceipt(txHash, interval) {
 
     if (Array.isArray(txHash)) {
         return Promise.all(txHash.map(
-            oneTxHash => self.waitForTxReceipt(oneTxHash, interval)));
+            oneTxHash => waitForTxReceipt(oneTxHash, interval)));
     } else if (typeof txHash === "string") {
         return new Promise(transactionReceiptAsync);
     } else {
@@ -64,6 +64,4 @@ module.exports = {
     isLowGas:isLowGas,
     rebroadcast:rebroadcast,
     waitForTxReceipt:waitForTxReceipt,
-
-
 }
