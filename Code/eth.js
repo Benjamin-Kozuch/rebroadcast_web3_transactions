@@ -6,11 +6,12 @@ web3.eth.defaultCommon = { customChain: { name: 'ropsten', chainId: 3, networkId
 const MAX_REBROADCAST_ATTEMPS = 10;
 
 
-async function isDropped(tx) {
+async function droppedFromTxPool(tx) {
 	await new Promise(r => setTimeout(r, 2000));
 
+	// getTransaction will return null if the txHash does not exist in the tx pool
+	// (i.e. if the txHash happens to be a random hexidecimal 32 character string, it probably wont exist in the tx pool!)
 	const transaction = await web3.eth.getTransaction(tx.txHash);
-
 	if (!transaction) {
 		return true;
 	}
@@ -18,7 +19,7 @@ async function isDropped(tx) {
 	return false;
 }
 
-function isLowGas(tx) {
+function slowGas(tx) {
 	if (tx.gasPriceGwei <= 50000000) {
 		return true;
 	}
@@ -29,25 +30,26 @@ function isLowGas(tx) {
 async function rebroadcast(tx, num_rebroadcast_attemps) {
     num_rebroadcast_attemps = num_rebroadcast_attemps || 1;
 
-    if (num_rebroadcast_attemps > MAX_REBROADCAST_ATTEMPS){
-        throw new Error(`Exceeded Maximum number of Rebroadcast Attempts: ${MAX_REBROADCAST_ATTEMPS}  (Staker App Rocks!) `);
-    }
+	// Uncomment to stop rebroadcasting after 10 failed attempts
+    // if (num_rebroadcast_attemps > MAX_REBROADCAST_ATTEMPS){
+    //     throw new Error(`Exceeded Maximum number of Rebroadcast Attempts: ${MAX_REBROADCAST_ATTEMPS}  (Staker App Rocks!) `);
+    // }
 
 	try {
-        console.log(`********** Rebroadcasting Transaction (attempt number ${num_rebroadcast_attemps}) **********`)
+        console.log(`\n********** Rebroadcasting Transaction (attempt number ${num_rebroadcast_attemps}) **********`)
 		tx = await gnosis.deploySafe(tx.nonce);
 	} catch (error) {
 		//console.log(error);
 	}
 
-    if (await isDropped(tx) || isLowGas(tx)){
+    if (await droppedFromTxPool(tx) || slowGas(tx)){
         return rebroadcast(tx, num_rebroadcast_attemps + 1);
     }
 
     return tx;
 }
 
-function waitForTxReceipt(txHash, interval) {
+function waitForTxReceipts(txHash, interval) {
 	const transactionReceiptAsync = function (resolve, reject) {
 		web3.eth.getTransactionReceipt(txHash, (error, receipt) => {
 			if (error) {
@@ -70,7 +72,7 @@ function waitForTxReceipt(txHash, interval) {
 
 	if (Array.isArray(txHash)) {
 		return Promise.all(
-			txHash.map(oneTxHash => waitForTxReceipt(oneTxHash, interval))
+			txHash.map(oneTxHash => waitForTxReceipts(oneTxHash, interval))
 		);
 	}
 
@@ -82,8 +84,8 @@ function waitForTxReceipt(txHash, interval) {
 }
 
 module.exports = {
-	isDropped,
-	isLowGas,
+	droppedFromTxPool,
+	slowGas,
 	rebroadcast,
-	waitForTxReceipt,
+	waitForTxReceipts,
 };

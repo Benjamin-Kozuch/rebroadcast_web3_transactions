@@ -40,7 +40,7 @@ function waitForHash(signedTx) {
 }
 
 async function getAdminNonce() {
-	return await web3.eth.getTransactionCount(adminAddress, 'pending');
+	return await web3.eth.getTransactionCount(adminAddress);
 }
 
 module.exports = {
