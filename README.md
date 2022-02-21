@@ -1,4 +1,4 @@
-# NodeJS-Technical-Assessment
+# Getting some practice with web3
 
 ## Sources
 https://info.etherscan.com/how-to-cancel-ethereum-pending-transactions/
@@ -12,13 +12,6 @@ https://ethereum.stackexchange.com/questions/27256/error-replacement-transaction
 https://ethereum.stackexchange.com/a/71310
 
 
-## Required Tools
-- https://code.visualstudio.com/
-- https://nodejs.org/en/blog/release/v12.18.0/
-```
-npm install mocha -g
-```
-
 ## Instructions
 Populate the `Tests/replay.test.js` file to do the following
 1. Execute 5 deploy safe transactions
@@ -27,6 +20,9 @@ Populate the `Tests/replay.test.js` file to do the following
 4. Assert that all gnosis safes are deployed successfully
 
 ## Running The Test
+```
+npm install mocha -g
+```
 ```
 mocha Tests/replay.test.js
 ```
